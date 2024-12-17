@@ -1,0 +1,5 @@
+setup.py
+better_quizlet.egg-info/PKG-INFO
+better_quizlet.egg-info/SOURCES.txt
+better_quizlet.egg-info/dependency_links.txt
+better_quizlet.egg-info/top_level.txt
