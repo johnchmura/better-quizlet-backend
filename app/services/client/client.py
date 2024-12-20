@@ -1,10 +1,10 @@
 from openai import OpenAI
-from loadenv import get_key, get_org
-from output_models import Flash_Card, Cards_List
+from app.utils.load_env import get_OPENAI_key, get_org
+from output_models import Cards_List
 
 def send_request(topic: str):
     client = OpenAI(
-    api_key = get_key(),
+    api_key = get_OPENAI_key(),
     organization= get_org(),
     )
 

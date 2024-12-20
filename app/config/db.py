@@ -1,7 +1,7 @@
 import logging
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-from .loadenv import get_connect
+from app.utils.load_env import get_connect
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

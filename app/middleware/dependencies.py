@@ -1,6 +1,6 @@
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from .loadenv import get_key, get_algo
+from app.utils.load_env import get_JWT_key, get_algo
 from app.models.user_models import User
 from app.models.token_models import TokenData
 from jwt.exceptions import InvalidTokenError
@@ -9,7 +9,7 @@ from typing import Annotated
 from .utilities import get_user
 
 
-SECRET_KEY = get_key()
+SECRET_KEY = get_JWT_key()
 ALGORITHM = get_algo()
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 

@@ -2,16 +2,16 @@ from passlib.context import CryptContext
 from app.models.user_models import UserInDB
 from app.config.db import get_mongo_client, get_database
 from datetime import datetime, timedelta, timezone
-from .loadenv import get_key, get_algo
+from app.utils.load_env import get_JWT_key, get_algo
 import jwt
 import logging
 
-SECRET_KEY = get_key()
+SECRET_KEY = get_JWT_key()
 ALGORITHM = get_algo()
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 mongo_client = get_mongo_client()
-db = get_database(mongo_client, "your_database_name")
+db = get_database(mongo_client, "better_quizlet_db")
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:

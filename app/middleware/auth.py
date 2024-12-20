@@ -3,19 +3,19 @@ from typing import Annotated
 from fastapi import Depends, APIRouter, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from passlib.context import CryptContext
-from .loadenv import get_key, get_algo
+from app.utils.load_env import get_JWT_key, get_algo
 from app.models.user_models import User
 from app.models.token_models import Token
 from app.config.db import get_mongo_client, get_database
 from .utilities import create_access_token, authenticate_user
 from .dependencies import get_current_active_user
 
-SECRET_KEY = get_key()
+SECRET_KEY = get_JWT_key()
 ALGORITHM = get_algo()
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 mongo_client = get_mongo_client()
-db = get_database(mongo_client, "your_database_name")  # Replace with your database name
+db = get_database(mongo_client, "better_quizlet_db")
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
