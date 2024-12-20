@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from app.middleware.utilities import get_user, get_users
-from app.models.user_models import User, UserPublic
+from app.utils.user_utils import get_user, get_users
+from app.models.user_models import UserPublic
 
 router = APIRouter()
 

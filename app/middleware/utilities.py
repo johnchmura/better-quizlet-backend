@@ -1,11 +1,9 @@
 from passlib.context import CryptContext
-from app.models.user_models import UserPublic, User
 from app.config.db import get_mongo_client, get_database
 from datetime import datetime, timedelta, timezone
 from app.utils.load_env import get_JWT_key, get_algo
-from typing import List
+from app.utils.user_utils import get_user
 import jwt
-import logging
 
 SECRET_KEY = get_JWT_key()
 ALGORITHM = get_algo()
@@ -22,31 +20,6 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 def get_password_hash(password: str) -> str:
     """Hashes the provided password."""
     return pwd_context.hash(password)
-
-def get_user(username: str):
-    """Fetches the user from the MongoDB database by username."""
-    if db is None:
-        logging.error("Database connection is unavailable.")
-        return None
-
-    user_data = db["users"].find_one({"username": username})
-    if user_data:
-        return UserPublic(**user_data)
-
-def get_users() -> List[User]:
-    """Fetches all users from the database."""
-    if db is None:
-        logging.error("Database connection is unavailable.")
-        return []
-
-    try:
-        users_data = db["users"].find({})
-        users = [User(**user) for user in users_data]
-        return users
-    except Exception as e:
-        logging.error(f"Error fetching users from database: {e}")
-        return []
-    
 
 def authenticate_user(username: str, password: str):
     """Authenticates the user by verifying username and password."""
