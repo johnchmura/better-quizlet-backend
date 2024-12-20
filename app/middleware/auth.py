@@ -4,11 +4,9 @@ from fastapi import Depends, APIRouter, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from passlib.context import CryptContext
 from app.utils.load_env import get_JWT_key, get_algo
-from app.models.user_models import User
 from app.models.token_models import Token
 from app.config.db import get_mongo_client, get_database
 from .utilities import create_access_token, authenticate_user
-from .dependencies import get_current_active_user
 
 SECRET_KEY = get_JWT_key()
 ALGORITHM = get_algo()
@@ -42,19 +40,3 @@ async def login_for_access_token(
         data={"sub": user.username}, expires_delta=access_token_expires
     )
     return Token(access_token=access_token, token_type="bearer")
-
-
-@router.get("/users/me/", response_model=User)
-async def read_users_me(
-    current_user: Annotated[User, Depends(get_current_active_user)],
-):
-    """Fetch the current logged-in user's details."""
-    return current_user
-
-
-@router.get("/users/me/items/")
-async def read_own_items(
-    current_user: Annotated[User, Depends(get_current_active_user)],
-):
-    """Fetch items owned by the current user."""
-    return [{"item_id": "Foo", "owner": current_user.username}]
