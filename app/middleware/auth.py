@@ -7,6 +7,7 @@ from app.utils.load_env import get_JWT_key, get_algo
 from app.models.token_models import Token
 from app.config.db import get_mongo_client, get_database
 from .utilities import create_access_token, authenticate_user
+from fastapi.responses import JSONResponse
 
 SECRET_KEY = get_JWT_key()
 ALGORITHM = get_algo()
@@ -22,12 +23,8 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 router = APIRouter()
 
-# Routes
 @router.post("/token", response_model=Token)
-async def login_for_access_token(
-    form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
-):
-    """Login to get an access token."""
+async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     user = authenticate_user(form_data.username, form_data.password)
     if not user:
         raise HTTPException(
@@ -39,4 +36,12 @@ async def login_for_access_token(
     access_token = create_access_token(
         data={"sub": user.username}, expires_delta=access_token_expires
     )
-    return Token(access_token=access_token, token_type="bearer")
+    response = JSONResponse(content={"token_type": "bearer"})
+    response.set_cookie(
+        key="token",
+        value=access_token,
+        httponly=True,
+        secure=True,
+        samesite="Lax",
+    )
+    return response

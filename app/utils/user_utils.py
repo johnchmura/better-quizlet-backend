@@ -1,4 +1,4 @@
-from app.models.user_models import UserPublic, User
+from app.models.user_models import UserPublic, User, UserInDB
 from typing import List
 from app.config.db import get_mongo_client, get_database
 import logging
@@ -15,7 +15,7 @@ def get_user(username: str):
 
     user_data = db["users"].find_one({"username": username})
     if user_data:
-        return UserPublic(**user_data)
+        return UserInDB(**user_data)
 
 
 def get_users() -> List[User]:
