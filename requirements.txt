@@ -1,6 +1,7 @@
 annotated-types==0.7.0
 anyio==4.7.0
 bcrypt==4.2.1
+-e git+https://github.com/johnchmura/better-quizlet-backend.git@fe8d18ce9feafe392376716d7d1505e66445f2f2#egg=better_quizlet
 certifi==2024.12.14
 charset-normalizer==3.4.0
 click==8.1.7

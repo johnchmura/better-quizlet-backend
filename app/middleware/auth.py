@@ -18,7 +18,6 @@ db = get_database(mongo_client, "better_quizlet_db")
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# OAuth2 configuration
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 router = APIRouter()
